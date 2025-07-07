@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeJourney | Your Personal Learning Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                <span>CodeJourney</span>
+            </div>
+            <button class="btn" id="newEntryBtn">
+                <i class="fas fa-plus"></i> New Entry
+            </button>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <input type="text" class="search-bar" placeholder="Search entries...">
+                <h3>Tags</h3>
+                <div class="tags" id="tagFilters">
+                    <div class="tag active" data-tag="all">All</div>
+                    <div class="tag" data-tag="javascript">JavaScript</div>
+                    <div class="tag" data-tag="python">Python</div>
+                    <div class="tag" data-tag="html">HTML</div>
+                    <div class="tag" data-tag="css">CSS</div>
+                    <div class="tag" data-tag="c">C</div>
+                    <div class="tag" data-tag="sql">SQL</div>
+                    <div class="tag" data-tag="notes">Notes</div>
+                    <div class="tag" data-tag="resources">Resources</div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div class="entry-form" id="entryForm" style="display: none;">
+                    <div class="entry-type">
+                        <div class="entry-type-btn active" data-type="note">
+                            <i class="fas fa-sticky-note"></i>
+                            Note
+                        </div>
+                        <div class="entry-type-btn" data-type="code">
+                            <i class="fas fa-code"></i>
+                            Code
+                        </div>
+                        <div class="entry-type-btn" data-type="resource">
+                            <i class="fas fa-link"></i>
+                            Resource
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="entryTitle">Title</label>
+                        <input type="text" class="form-control" id="entryTitle" placeholder="What's this about?">
+                    </div>
+                    <div class="form-group" id="contentGroup">
+                        <label for="entryContent">Content</label>
+                        <textarea class="form-control" id="entryContent" placeholder="Write your notes here..."></textarea>
+                    </div>
+                    <div class="form-group" id="codeGroup" style="display: none;">
+                        <label for="codeContent">Code</label>
+                        <textarea class="form-control" id="codeContent" placeholder="Paste your code here..."></textarea>
+                        <label for="codeLanguage" style="margin-top: 10px;">Language</label>
+                        <select class="form-control" id="codeLanguage">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="c">C</option>
+                            <option value="sql">SQL</option>
+                            <option value="java">Java</option>
+                            <option value="php">PHP</option>
+                            <option value="bash">Bash</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="resourceGroup" style="display: none;">
+                        <label for="resourceUrl">URL</label>
+                        <input type="text" class="form-control" id="resourceUrl" placeholder="https://example.com">
+                        <label for="resourceDescription" style="margin-top: 10px;">Description</label>
+                        <textarea class="form-control" id="resourceDescription" placeholder="What's this resource about?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="entryTags">Tags (comma separated)</label>
+                        <input type="text" class="form-control" id="entryTags" placeholder="javascript, webdev, tips">
+                    </div>
+                    <div class="form-group" style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button class="btn btn-outline" id="cancelEntryBtn">Cancel</button>
+                        <button class="btn" id="saveEntryBtn">Save Entry</button>
+                    </div>
+                </div>
+
+                <div class="entries" id="entriesContainer">
+                    <div class="empty-state">
+                        <i class="fas fa-code-branch"></i>
+                        <h3>No entries yet</h3>
+                        <p>Start by creating your first learning entry!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ai-assistant" id="aiAssistantBtn">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="ai-panel" id="aiPanel">
+        <div class="ai-header">
+            <h3>AI Assistant</h3>
+            <button class="close-ai" id="closeAiBtn">&times;</button>
+        </div>
+        <div class="ai-messages" id="aiMessages">
+            <div class="ai-message assistant">
+                Hi there! I'm your coding assistant. How can I help you today? I can explain concepts, debug code, or summarize your notes.
+            </div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" class="ai-input" id="aiInput" placeholder="Ask me anything...">
+            <button class="send-ai" id="sendAiBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="modal" id="entryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="modal-close" id="modalCloseBtn">&times;</button>
+            </div>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
