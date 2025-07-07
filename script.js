@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize highlight.js
+ 
   hljs.highlightAll();
 
-  // DOM elements
+ 
   const newEntryBtn = document.getElementById("newEntryBtn");
   const entryForm = document.getElementById("entryForm");
   const cancelEntryBtn = document.getElementById("cancelEntryBtn");
@@ -25,20 +25,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalContent = document.getElementById("modalContent");
   const modalCloseBtn = document.getElementById("modalCloseBtn");
 
-  // State
+
   let entries = JSON.parse(localStorage.getItem("codejourney-entries")) || [];
   let currentEntryType = "note";
   let currentFilter = "all";
   let currentSearch = "";
   let editingEntryId = null;
 
-  // Initialize the app
+
   function init() {
     renderEntries();
     setupEventListeners();
   }
 
-  // Set up event listeners
   function setupEventListeners() {
     newEntryBtn.addEventListener("click", showEntryForm);
     cancelEntryBtn.addEventListener("click", hideEntryForm);
@@ -83,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Show/hide entry form
+  
   function showEntryForm() {
     entryForm.style.display = "block";
     newEntryBtn.style.display = "none";
@@ -96,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
     editingEntryId = null;
   }
 
-  // Update form fields based on entry type
+  
   function updateFormFields() {
     contentGroup.style.display = "none";
     codeGroup.style.display = "none";
@@ -111,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Reset form
+
   function resetForm() {
     document.getElementById("entryTitle").value = "";
     document.getElementById("entryContent").value = "";
@@ -129,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateFormFields();
   }
 
-  // Save entry
+
   function saveEntry() {
     const title = document.getElementById("entryTitle").value.trim();
     const tags = document
@@ -180,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     if (editingEntryId) {
-      // Update existing entry
+   
       const index = entries.findIndex((e) => e.id === editingEntryId);
       if (index !== -1) {
         entries[index] = entry;
@@ -195,11 +194,11 @@ document.addEventListener("DOMContentLoaded", function () {
     hideEntryForm();
   }
 
-  // Render entries
+
   function renderEntries() {
     let filteredEntries = [...entries];
 
-    // Filter by tag
+
     if (currentFilter !== "all") {
       filteredEntries = filteredEntries.filter(
         (entry) =>
@@ -209,7 +208,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
 
-    // Filter by search
     if (currentSearch) {
       filteredEntries = filteredEntries.filter((entry) => {
         const searchFields = [
@@ -243,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Create entry element
+
   function createEntryElement(entry) {
     const entryElement = document.createElement("div");
     entryElement.className = "entry-card";
@@ -307,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         `;
 
-    // Add event listeners to buttons
+
     const editBtn = entryElement.querySelector(".edit-btn");
     const deleteBtn = entryElement.querySelector(".delete-btn");
     const explainBtn = entryElement.querySelector(".explain-btn");
@@ -328,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Highlight code if needed
+
     if (entry.type === "code") {
       const codeBlock = entryElement.querySelector("code");
       hljs.highlightElement(codeBlock);
@@ -337,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return entryElement;
   }
 
-  // Edit entry
+
   function editEntry(id) {
     const entry = entries.find((e) => e.id === id);
     if (!entry) return;
@@ -369,7 +367,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Delete entry
+
   function deleteEntry(id) {
     if (confirm("Are you sure you want to delete this entry?")) {
       entries = entries.filter((e) => e.id !== id);
@@ -378,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Explain code with AI
+
   function explainCode(entry) {
     toggleAiPanel();
     addAiMessage(
@@ -403,7 +401,7 @@ For a real explanation, you would need to connect this app to the OpenAI API by:
     }
   }
 
-  // Add AI message
+
   function addAiMessage(role, content) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `ai-message ${role}`;
@@ -412,7 +410,7 @@ For a real explanation, you would need to connect this app to the OpenAI API by:
     aiMessages.scrollTop = aiMessages.scrollHeight;
   }
 
-  // Send AI message
+
   function sendAiMessage() {
     const message = aiInput.value.trim();
     if (!message) return;
@@ -420,10 +418,7 @@ For a real explanation, you would need to connect this app to the OpenAI API by:
     addAiMessage("user", message);
     aiInput.value = "";
 
-    // In a real implementation, you would call the OpenAI API here
-    // fetchAIResponse(message);
-
-    // For demo purposes, we'll simulate a response
+   
     simulateAiResponse(`I'm your AI assistant. In a real implementation, this would be the response from the OpenAI API.
 
 To connect the real API:
@@ -432,44 +427,14 @@ To connect the real API:
 3. Add your API key to the request`);
   }
 
-  // Simulate AI response (for demo)
+
   function simulateAiResponse(response) {
     setTimeout(() => {
       addAiMessage("assistant", response);
     }, 1000);
   }
 
-  // Fetch AI response from OpenAI API (commented out for demo)
-  /*
-    async function fetchAIResponse(prompt) {
-        try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer YOUR_API_KEY'
-                },
-                body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [{role: 'user', content: prompt}],
-                    temperature: 0.7
-                })
-            });
-
-            const data = await response.json();
-            if (data.choices && data.choices[0].message) {
-                addAiMessage('assistant', data.choices[0].message.content);
-            } else {
-                addAiMessage('assistant', 'Sorry, I couldn\'t process your request.');
-            }
-        } catch (error) {
-            addAiMessage('assistant', 'Error connecting to the AI service.');
-            console.error('AI API error:', error);
-        }
-    }
-    */
-
-  // Helper functions
+  
   function formatDate(dateString) {
     const date = new Date(dateString);
     return (
@@ -492,6 +457,6 @@ To connect the real API:
       .replace(/'/g, "&#039;");
   }
 
-  // Initialize the app
+
   init();
 });
